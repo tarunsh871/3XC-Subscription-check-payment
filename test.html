@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configure Your 3CX Subscription</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #a876ad, #c07f2a);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 20px;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.1em;
+        }
+
+        button {
+            background: linear-gradient(135deg, #797a45, #feb47b);
+            color: #0e0d0d;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #c67436, #ff7e5f);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Renew / Purchase Your 3CX Subscription</h1>
+        <form id="optionsForm">
+            <div class="form-group">
+                <label for="sc">Simultaneous Calls (SC):</label>
+                <select id="sc" name="sc">
+                    <option value="1">1 SC</option>
+                    <option value="4">4 SC</option>
+                    <option value="8">8 SC</option>
+                    <option value="16">16 SC</option>
+                    <option value="24">24 SC</option>
+                    <option value="32">32 SC</option>
+                    <option value="48">48 SC</option>
+                    <option value="64">64 SC</option>
+                    <option value="96">96 SC</option>
+                    <option value="128">128 SC</option>
+                    <option value="192">192 SC</option>
+                    <option value="256">256 SC</option>
+                    <option value="512">512 SC</option>
+                    <option value="1024">1024 SC</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="pro">Service Type:</label>
+                <select id="pro" name="pro">
+                    <option value="pro">3CX PRO - Professional</option>
+                    <option value="ent">3CX ENT - Enterprise</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="hosting">Hosting Options:</label>
+                <select id="hosting" name="hosting">
+                    <option value="withhosting">With Hosting</option>
+                    <option value="withouthosting">Without Hosting</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="button" onclick="calculateTotal()">Proceed to Payment</button>
+            </div>
+            <div class="form-group half-button-container">
+                <button type="button" class="half-button" onclick="openInstallationForm()">Installation on Demand</button>
+                <button type="button" class="half-button" id="supportButton" onclick="addSupport()">Support</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const prices = {
+            "1": { "pro": 1, "ent": 1, "hosting": 1 },
+            "4": { "pro": 195, "ent": 245, "hosting": 250 },
+            "8": { "pro": 295, "ent": 370, "hosting": 250 },
+            "16": { "pro": 695, "ent": 870, "hosting": 425 },
+            "24": { "pro": 995, "ent": 1245, "hosting": 425 },
+            "32": { "pro": 1350, "ent": 1690, "hosting": 850 },
+            "48": { "pro": 2095, "ent": 2620, "hosting": 850 },
+            "64": { "pro": 2750, "ent": 3440, "hosting": 850 },
+            "96": { "pro": 4495, "ent": 5620, "hosting": 1695 },
+            "128": { "pro": 5995, "ent": 7495, "hosting": 1695 },
+            "192": { "pro": 8995, "ent": 11245, "hosting": 1995 },
+            "256": { "pro": 11995, "ent": 14995, "hosting": 1995 },
+            "512": { "pro": 18995, "ent": 23745, "hosting": 0 },
+            "1024": { "pro": 34995, "ent": 43745, "hosting": 0 }
+        };
+        function calculateTotal() {
+            const scValue = document.getElementById('sc').value;
+            const proValue = document.getElementById('pro').value;
+            const hostingOption = document.getElementById('hosting').value;
+
+            let totalAmountInInr = prices[scValue][proValue];
+
+            if (hostingOption === "withhosting") {
+                totalAmountInInr += prices[scValue].hosting;
+            }
+
+            // Adding 18% GST
+            const gst = 0.18;
+            const totalAmountWithGST = (parseFloat(totalAmountInInr) * (1 + gst)).toFixed(2);
+
+            // Redirect to payment.html with the total amount in the URL
+            window.location.href = `payment1.html?amount=${totalAmountWithGST}`;
+        }
+
+        function addSupport() {
+            window.open('https://forms.office.com/Pages/ResponsePage.aspx?id=1B1hT-HCXkau5R4nq6qH0q-VGfFe-H5BuCOwhBuQlLtUMEE4UkRHSzJaV0hLV05CVVVWNFI1SVdHVi4u', '_blank');
+        }
+
+        function openInstallationForm() {
+            window.open('https://forms.office.com/Pages/ResponsePage.aspx?id=1B1hT-HCXkau5R4nq6qH0q-VGfFe-H5BuCOwhBuQlLtUOURDS0RUWEo5MVJFSExHVlY3RFpOOVIzVy4u', '_blank');
+        }
+    </script>
+</body>
+</html>
