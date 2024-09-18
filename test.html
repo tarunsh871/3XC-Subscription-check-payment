@@ -151,7 +151,8 @@
             const totalAmountWithGST = (parseFloat(totalAmountInInr) * (1 + gst)).toFixed(2);
 
             // Redirect to payment.html with the total amount in the URL
-            window.location.href = `payment1.html?amount=${totalAmountWithGST}`;
+            window.location.href = `payment.html?amount=${totalAmountWithGST}`;
+
         }
 
         function addSupport() {
