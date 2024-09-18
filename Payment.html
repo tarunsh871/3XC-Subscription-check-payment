@@ -6,7 +6,7 @@
     <title>Payment</title>
     <style>
         body {
-            background: linear-gradient(135deg, #a876ad, #c07f2a);
+            background: linear-gradient(135deg, #6a3093, #a044ff);
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
@@ -17,9 +17,9 @@
             padding: 20px;
             box-sizing: border-box;
             font-size: 20px;
-            text-align: center;
         }
-        .container {
+
+        .payment-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 10px;
@@ -27,34 +27,51 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             max-width: 400px;
             width: 100%;
+            text-align: center;
             box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.1em;
+            background: linear-gradient(135deg, #feb47b, #ff7e5f);
+            color: #000;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff7e5f, #c67436);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Payment Status</h1>
-        <div id="payment-status">
-            <!-- Transaction ID and message will be displayed here -->
-        </div>
+    <div class="payment-container">
+        <h1>Payment Details</h1>
+        <p id="amount"></p>
+        <button onclick="processPayment()">Pay Now</button>
     </div>
 
     <script>
-        // Retrieve the transaction ID from the URL
+        // Extract the total amount from the URL
         const urlParams = new URLSearchParams(window.location.search);
-        const transactionId = urlParams.get('transaction_id');
+        const amount = urlParams.get('amount');
 
-        // Check if transaction ID is present
-        if (transactionId) {
-            document.getElementById('payment-status').innerHTML = `
-                <p>We have received your payment successfully.</p>
-                <p>Transaction ID: <strong>${transactionId}</strong></p>
-                <p>We will get your license to you shortly.</p>
-            `;
-        } else {
-            document.getElementById('payment-status').innerHTML = `
-                <p>Payment was not completed successfully. Please try again.</p>
-            `;
+        // Display the total amount
+        document.getElementById('amount').textContent = `Total Amount: ₹${amount}`;
+
+        function processPayment() {
+            // Simulate payment processing and display transaction ID
+            alert(`Payment successful! Transaction ID: ${Math.floor(Math.random() * 1000000)}`);
         }
     </script>
 </body>

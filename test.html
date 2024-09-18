@@ -135,6 +135,7 @@
             "512": { "pro": 18995, "ent": 23745, "hosting": 0 },
             "1024": { "pro": 34995, "ent": 43745, "hosting": 0 }
         };
+
         function calculateTotal() {
             const scValue = document.getElementById('sc').value;
             const proValue = document.getElementById('pro').value;
@@ -152,7 +153,6 @@
 
             // Redirect to payment.html with the total amount in the URL
             window.location.href = `payment.html?amount=${totalAmountWithGST}`;
-
         }
 
         function addSupport() {
