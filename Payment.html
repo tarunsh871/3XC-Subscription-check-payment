@@ -52,26 +52,55 @@
             background: linear-gradient(135deg, #ff7e5f, #c67436);
             transform: scale(1.05);
         }
+
+        .confirmation-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
     <div class="payment-container">
         <h1>Payment Details</h1>
         <p id="amount"></p>
-        <button onclick="processPayment()">Pay Now</button>
+        <button onclick="initiatePayment()">Pay Now</button>
+        <div class="confirmation-message" id="confirmationMessage">
+            <p>We have received your payment and we will get your license to you shortly.</p>
+            <p>Transaction ID: <span id="transactionId"></span></p>
+        </div>
     </div>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-        // Extract the total amount from the URL
+       //Extract the total amount from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const amount = urlParams.get('amount');
 
-        // Display the total amount
+    
         document.getElementById('amount').textContent = `Total Amount: ₹${amount}`;
 
-        function processPayment() {
-            // Simulate payment processing and display transaction ID
-            alert(`Payment successful! Transaction ID: ${Math.floor(Math.random() * 1000000)}`);
+        function initiatePayment() {
+            var options = {
+                "key": "rzp_live_sLNCdIFDsMu6XH", 
+                "amount": amount * 100, 
+                "currency": "INR",
+                "name": "3CX Subscription",
+                "description": "Payment for 3CX Subscription",
+                "handler": function (response) {
+                    document.querySelector('.payment-container').style.display = 'none'; // Hide payment form
+                    document.getElementById('confirmationMessage').style.display = 'block'; // Show confirmation message
+                    document.getElementById('transactionId').textContent = response.razorpay_payment_id; // Show transaction ID
+                },
+                "prefill": {
+                    "name": "Your Name",
+                    "email": "youremail@example.com",
+                    "contact": "1234567890"
+                }
+            };
+
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
         }
     </script>
 </body>
